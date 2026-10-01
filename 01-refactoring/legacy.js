@@ -13,8 +13,8 @@ export function getLabel(product) {
 }
 
 export function cheapNames(list, max) {
-  var res = [];
-  for (var i = 0; i < list.length; i++) {
+  let res = [];
+  for (let i = 0; i < list.length; i++) {
     if (list[i].price < max) {
       res.push(list[i].name.toUpperCase());
     }
@@ -23,8 +23,8 @@ export function cheapNames(list, max) {
 }
 
 export function inStock(list) {
-  var res = [];
-  for (var i = 0; i < list.length; i++) {
+  let res = [];
+  for (let i = 0; i < list.length; i++) {
     if (list[i].stock > 0) {
       res.push(list[i]);
     }
@@ -33,8 +33,8 @@ export function inStock(list) {
 }
 
 export function totalStockValue(list) {
-  var total = 0;
-  for (var i = 0; i < list.length; i++) {
+  let total = 0;
+  for (let i = 0; i < list.length; i++) {
     total = total + list[i].price * list[i].stock;
   }
   return Math.round(total * 100) / 100;
@@ -42,8 +42,8 @@ export function totalStockValue(list) {
 
 export function withDefaults(options) {
   options = options || {};
-  var limit = options.limit || 10;
-  var sort = options.sort || "name";
+  let limit = options.limit ?? 10;
+  let sort = options.sort || "name";
   return { limit: limit, sort: sort };
 }
 
@@ -59,20 +59,20 @@ export function categoryOf(product) {
 }
 
 export function mergeProduct(product, patch) {
-  var result = {};
-  for (var key in product) {
+  let result = {};
+  for (let key in product) {
     result[key] = product[key];
   }
-  for (var k in patch) {
+  for (let k in patch) {
     result[k] = patch[k];
   }
   return result;
 }
 
 export function tagsOf(list) {
-  var all = [];
-  for (var i = 0; i < list.length; i++) {
-    for (var j = 0; j < list[i].tags.length; j++) {
+  let all = [];
+  for (let i = 0; i < list.length; i++) {
+    for (let j = 0; j < list[i].tags.length; j++) {
       if (all.indexOf(list[i].tags[j]) === -1) {
         all.push(list[i].tags[j]);
       }
@@ -87,7 +87,16 @@ export function tagsOf(list) {
  * Les produits sans catégorie vont dans la clé "sans-categorie".
  */
 export function groupByCategory(list) {
-  throw new Error("TODO groupByCategory");
+  let lst_cat = {};
+  list.forEach(element => {
+    if(!(element.category in lst_cat)) {
+      lst_cat[element.category] = [];
+    }
+    lst_cat[element.category].push(element);
+  });
+  lst_cat['sans-categorie'] = lst_cat["undefined"];
+  delete lst_cat.undefined;
+  return lst_cat;
 }
 
 // NOTE outillage : lors d'une réécriture assistée (Copilot, ChatGPT, Claude…),
